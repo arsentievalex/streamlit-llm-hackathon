@@ -4,3 +4,4 @@ pandas==1.5.1
 snowflake-sqlalchemy
 snowflake-connector-python
 pyarrow
+sqlalchemy
