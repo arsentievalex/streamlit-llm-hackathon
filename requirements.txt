@@ -2,7 +2,4 @@ streamlit==1.25.0
 llama-index
 pandas==1.5.1
 snowflake-sqlalchemy
-snowflake-connector-python
 pyarrow
-sqlalchemy
-snowflake-snowpark-python[pandas]
