@@ -5,3 +5,4 @@ snowflake-sqlalchemy
 snowflake-connector-python
 pyarrow
 sqlalchemy
+snowflake-snowpark-python[pandas]
