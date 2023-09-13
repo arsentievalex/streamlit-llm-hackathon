@@ -58,7 +58,7 @@ page_bg_img = f"""
 def load_index():
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
         reader = DatabaseReader(
-            uri=st.secrets["connections"]['snowflake']['url']
+            uri=st.secrets["connections"]['snowpark']['url']
         )
 
         query = f"""
