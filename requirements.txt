@@ -1,6 +1,4 @@
 streamlit==1.25.0
-llama-index
 pandas
 snowflake-snowpark-python==1.7.0
-openai
 pyarrow==8.0.0
