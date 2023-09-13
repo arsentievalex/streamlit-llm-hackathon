@@ -3,3 +3,4 @@ llama-index
 pandas
 snowflake-snowpark-python
 openai
+pyarrow
