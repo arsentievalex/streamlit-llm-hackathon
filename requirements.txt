@@ -1,5 +1,5 @@
 streamlit
-llama-index==0.8.21
+llama-index==0.8.25
 pandas
 snowflake-connector-python==2.9.0
 snowflake-sqlalchemy==1.5.0
