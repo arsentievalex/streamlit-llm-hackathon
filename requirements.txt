@@ -1,6 +1,6 @@
 streamlit
 llama-index
 pandas
-snowflake-connector-python
-sqlalchemy
-snowflake-sqlalchemy
+snowflake-connector-python==2.9.0
+sqlalchemy==1.4.49
+snowflake-sqlalchemy==1.47
