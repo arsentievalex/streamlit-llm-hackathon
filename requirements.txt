@@ -3,4 +3,4 @@ llama-index
 pandas
 snowflake-connector-python==2.9.0
 sqlalchemy==1.4.49
-snowflake-sqlalchemy==1.47
+snowflake-sqlalchemy==1.4.7
