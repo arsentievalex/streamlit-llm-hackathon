@@ -75,7 +75,7 @@ def load_index():
 @st.cache_data(show_spinner=False)
 def load_data():
     # Initialize connection.
-    conn = st.experimental_connection('snowflake', type='sql')
+    conn = st.experimental_connection('snowpark')
 
     # Perform query.
     employees_df = conn.query('SELECT * from EMPLOYEES;')
