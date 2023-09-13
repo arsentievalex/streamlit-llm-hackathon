@@ -1,4 +1,4 @@
 streamlit
 llama-index
-pandas==1.5.1
-snowflake-sqlalchemy
+pandas
+
