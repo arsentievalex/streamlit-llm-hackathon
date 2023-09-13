@@ -2,3 +2,4 @@ streamlit
 llama-index
 pandas
 snowflake-connector-python
+sqlalchemy
