@@ -3,4 +3,4 @@ streamlit==1.25.0
 openai==0.27.5
 llama-index==0.8.21
 sqlalchemy==2.0.15
-snowflake-sqlalchemy==1.4.7
+snowflake-sqlalchemy==1.5.0
