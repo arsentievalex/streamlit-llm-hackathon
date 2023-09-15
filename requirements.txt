@@ -1,6 +1,6 @@
 pandas==1.5.2
 streamlit==1.25.0
 openai==0.27.5
-llama-index==0.8.21
+llama-index==0.8.27
 sqlalchemy==2.0.15
 snowflake-sqlalchemy==1.5.0
