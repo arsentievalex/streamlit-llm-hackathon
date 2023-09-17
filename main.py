@@ -63,7 +63,7 @@ def load_index(_docs):
         return index
 
 
-@st.cache_data(show_spinner=False)
+#@st.cache_data(show_spinner=False)
 def load_docs(_query):
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
 
