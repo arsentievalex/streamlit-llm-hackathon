@@ -76,7 +76,12 @@ def load_docs(query):
         snowflake_url = f"snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}"
 
         reader = DatabaseReader(uri=snowflake_url)
+
+        st.write('reader initiated')
+        
         docs = reader.load_data(query=query)
+
+        st.write('docs loaded')
         return docs
 
 
