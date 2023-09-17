@@ -5,6 +5,7 @@ import openai
 from llama_index.readers.database import DatabaseReader
 import random
 import pandas as pd
+from sqlalchemy import text
 
 
 footer_html = """
@@ -124,10 +125,8 @@ st.set_page_config(page_title="SalesWizz", page_icon="💸", layout="centered",
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # load employees table as df
-query = f"""
-SELECT *
-FROM EMPLOYEES
-"""
+query = text("SELECT * FROM EMPLOYEES")
+
 
 columns = ['Employee ID', 'Employee Name', 'Role', 'Employment Type', 'Region', 'Photo']
 
@@ -136,10 +135,7 @@ employees_docs = load_docs(query=query)
 employees_df = docs_to_df(_docs=employees_docs, columns=columns)
 
 # load employees table as df
-query = f"""
-SELECT *
-FROM SALESDATA
-"""
+query = text("SELECT * FROM SALESDATA")
 
 # Set OpenAI API key
 openai.api_key = st.secrets["openai_credentials"]["openai_key"]
