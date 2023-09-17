@@ -64,7 +64,7 @@ def load_index(_docs):
 
 
 @st.cache_data(show_spinner=False)
-def load_docs(query):
+def load_docs(_query):
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
 
         snowflake_user = st.secrets["connections"]['snowpark']['user']
@@ -76,7 +76,7 @@ def load_docs(query):
         snowflake_url = f"snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}"
 
         reader = DatabaseReader(uri=snowflake_url)
-        docs = reader.load_data(query=query)
+        docs = reader.load_data(query=_query)
         return docs
 
 
