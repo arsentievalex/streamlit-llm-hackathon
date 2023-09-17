@@ -100,7 +100,7 @@ def get_user_identity(df):
     st.session_state.photo_url = photo_url
     return name.split(' ')[0]
 
-@st.cache_data(show_spinner=False)
+#@st.cache_data(show_spinner=False)
 def docs_to_df(_docs, columns):
     lst = []
     for el in _docs:
