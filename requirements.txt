@@ -4,4 +4,3 @@ openai==0.27.5
 llama-index==0.8.21
 langchain
 snowflake-sqlalchemy
-snowflake-connector-python
