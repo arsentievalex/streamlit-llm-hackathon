@@ -2,7 +2,7 @@ pandas==1.5.2
 streamlit
 openai==0.27.5
 langchain
-snowflake-sqlalchemy
+snowflake-sqlalchemy==1.4.7
 tiktoken
-snowflake-connector-python
+snowflake-connector-python==2.9.0
 llama-index==0.8.27
