@@ -1,5 +1,5 @@
 import streamlit as st
-from llama_index import VectorStoreIndex, ServiceContext
+#from llama_index import VectorStoreIndex, ServiceContext
 from llama_index.llms import OpenAI
 import openai
 from llama_index.readers.database import DatabaseReader
@@ -55,12 +55,12 @@ page_bg_img = f"""
 """
 
 
-@st.cache_resource(show_spinner=False)
-def load_index(_docs):
-    with st.spinner(text="Loading and indexing the docs – hang tight!"):
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0))
-        index = VectorStoreIndex.from_documents(_docs, service_context=service_context)
-        return index
+# @st.cache_resource(show_spinner=False)
+# def load_index(_docs):
+#     with st.spinner(text="Loading and indexing the docs – hang tight!"):
+#         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0))
+#         index = VectorStoreIndex.from_documents(_docs, service_context=service_context)
+#         return index
 
 
 #@st.cache_data(show_spinner=False)
@@ -145,131 +145,131 @@ query = text("SELECT * FROM SALESDATA")
 # Set OpenAI API key
 openai.api_key = st.secrets["openai_credentials"]["openai_key"]
 
-# load sales table and index
-sales_docs = load_docs(query=query)
-index = load_index(_docs=sales_docs)
+# # load sales table and index
+# sales_docs = load_docs(query=query)
+# index = load_index(_docs=sales_docs)
 
 
-st.title("SalesWizz: One Query Away from Your Sales 💸")
+# st.title("SalesWizz: One Query Away from Your Sales 💸")
 
-with st.expander('What this app is about?'):
-    """
-    This app is a basic implementation of a user-identity-aware chatbot.
-    It is trained on internal sales data and follows the company's policy for handling IAM (Identity and Access Management).
+# with st.expander('What this app is about?'):
+#     """
+#     This app is a basic implementation of a user-identity-aware chatbot.
+#     It is trained on internal sales data and follows the company's policy for handling IAM (Identity and Access Management).
 
-    The model is trained on the fictional sales data including region, quarter, quota, profit, commission and revenue.
+#     The model is trained on the fictional sales data including region, quarter, quota, profit, commission and revenue.
 
-    The model is trained on the following policy:
-    1. The sales data can only be shared with Account Executives or Directors.
-    2. Account Executives can only be provided with data from their region. For example, an Account Executive from North America cannot get EMEA data and vice versa.
-    3. No data must be shared with contractors, regardless of the role and region.
-    4. The Directors can access data from all the regions (global).
+#     The model is trained on the following policy:
+#     1. The sales data can only be shared with Account Executives or Directors.
+#     2. Account Executives can only be provided with data from their region. For example, an Account Executive from North America cannot get EMEA data and vice versa.
+#     3. No data must be shared with contractors, regardless of the role and region.
+#     4. The Directors can access data from all the regions (global).
 
-    The model is instructed about the current user's identity and decides whether to share the data or not based on the policy. As a nice bonus, the app displays the current user's photo from the employee table in the chat window.
+#     The model is instructed about the current user's identity and decides whether to share the data or not based on the policy. As a nice bonus, the app displays the current user's photo from the employee table in the chat window.
 
-    High level architecture:
-    """
-    st.image('https://i.postimg.cc/W3rx4V1X/architecture-llama.png', use_column_width=True)
+#     High level architecture:
+#     """
+#     st.image('https://i.postimg.cc/W3rx4V1X/architecture-llama.png', use_column_width=True)
 
-    st.write('The chatbot is following the logic below:')
+#     st.write('The chatbot is following the logic below:')
 
-    st.image('https://i.postimg.cc/K86N8M3h/model-logic.png', use_column_width=True)
-
-
-# Initialize session state if it's not already initialized
-if 'user_identity' not in st.session_state:
-    st.session_state.user_identity = None
-
-if st.session_state.user_identity is None:
-    name = get_user_identity(df=employees_df)
+#     st.image('https://i.postimg.cc/K86N8M3h/model-logic.png', use_column_width=True)
 
 
-st.info(
-    f"You are randomly assigned a user identity. Your current identify is: {st.session_state.user_identity}. Click the button below to shuffle the identity.",
-    icon="📃")
+# # Initialize session state if it's not already initialized
+# if 'user_identity' not in st.session_state:
+#     st.session_state.user_identity = None
 
-policy = f"""
-You're helpful internal chatbot assistant, your task is answering questions about company sales data. You don't have knowledge of any other topics.
-Your responses should differ depending on who you are chatting with. You must follow the company policy outlined below:
-
-1. You can only share sales data with these roles: Account Executive, Director.
-2. Account Executives can only be provided with data from their region. For example, an Account Executive from North America cannot get EMEA data and vice versa.
-3. You must not share any data with contractors, regardless of the role and region.
-4. The Directors can access data from all the regions.
-
-Your reasoning should be the following:
-1. Determine the role of the user. If the user is Account Executive or Director, proceed to the next step. Otherwise, decline to share any data.
-2. Determine the region of the user. Is the user asking about their own region?
-3. Determine employment type. If the user is a contractor, decline to share any data.
-4. If the user is a Director, share the data. If the user is a Full Time Account Executive, share the data only if the user is asking about their own region.
+# if st.session_state.user_identity is None:
+#     name = get_user_identity(df=employees_df)
 
 
-If you cannot share data with a user, refer them to their manager. Follow these rules at all times and do not break them under any circumstances.
-Do not hallucinate or make up the answers.
+# st.info(
+#     f"You are randomly assigned a user identity. Your current identify is: {st.session_state.user_identity}. Click the button below to shuffle the identity.",
+#     icon="📃")
 
-You are currently chatting with {st.session_state.user_identity}
-"""
+# policy = f"""
+# You're helpful internal chatbot assistant, your task is answering questions about company sales data. You don't have knowledge of any other topics.
+# Your responses should differ depending on who you are chatting with. You must follow the company policy outlined below:
 
+# 1. You can only share sales data with these roles: Account Executive, Director.
+# 2. Account Executives can only be provided with data from their region. For example, an Account Executive from North America cannot get EMEA data and vice versa.
+# 3. You must not share any data with contractors, regardless of the role and region.
+# 4. The Directors can access data from all the regions.
 
-chat_engine = index.as_chat_engine(chat_mode="context", verbose=True, system_prompt=policy)
-
-if "messages" not in st.session_state.keys():  # Initialize the chat messages history
-    st.session_state.messages = [
-        {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
-    ]
-
-if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
-
-
-for message in st.session_state.messages:  # Display the prior chat messages
-    # if role is user
-    if message["role"] == "user":
-        with st.chat_message(message["role"], avatar=st.session_state.photo_url):
-            st.write(message["content"])
-    elif message["role"] == "assistant":
-        with st.chat_message(message["role"]):
-            st.write(message["content"])
+# Your reasoning should be the following:
+# 1. Determine the role of the user. If the user is Account Executive or Director, proceed to the next step. Otherwise, decline to share any data.
+# 2. Determine the region of the user. Is the user asking about their own region?
+# 3. Determine employment type. If the user is a contractor, decline to share any data.
+# 4. If the user is a Director, share the data. If the user is a Full Time Account Executive, share the data only if the user is asking about their own region.
 
 
-# create buttons for sample questions and to shuffle the user identity
-col1, col2 = st.columns(2)
+# If you cannot share data with a user, refer them to their manager. Follow these rules at all times and do not break them under any circumstances.
+# Do not hallucinate or make up the answers.
 
-sample_questions = ["What's the Q3 revenue in my region?", "What's the Q2 quota in EMEA?", "What's the total profit in North America?",
-                    "What's the average commission in EMEA?", "What's the Q3 revenue in North America?", "What's my commission in Q2?", "What's the total revenue in all regions?"]
-
-with col1:
-    sample_q = st.button('Ask a sample question ❔')
-if sample_q:
-    # randomly select a sample question
-    prompt = random.choice(sample_questions)
-    st.session_state.messages.append({"role": "user", "content": prompt})
-
-    # display the message
-    with st.chat_message("user", avatar=st.session_state.photo_url):
-        st.write(prompt)
+# You are currently chatting with {st.session_state.user_identity}
+# """
 
 
-with col2:
-    shuffle = st.button('Shuffle the user identity 🔄')
-    if shuffle:
-        # clear session state
-        st.session_state.user_identity = None
-        name = get_user_identity(df=employees_df)
+# chat_engine = index.as_chat_engine(chat_mode="context", verbose=True, system_prompt=policy)
 
-        # update chat history
-        st.session_state.messages = [
-            {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
-        ]
+# if "messages" not in st.session_state.keys():  # Initialize the chat messages history
+#     st.session_state.messages = [
+#         {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
+#     ]
 
-# If last message is not from assistant, generate a new response
-if st.session_state.messages[-1]["role"] != "assistant":
-    with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = chat_engine.chat(prompt)
-            st.write(response.response)
-            message = {"role": "assistant", "content": response.response}
-            st.session_state.messages.append(message)  # Add response to message history
+# if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
+#     st.session_state.messages.append({"role": "user", "content": prompt})
+
+
+# for message in st.session_state.messages:  # Display the prior chat messages
+#     # if role is user
+#     if message["role"] == "user":
+#         with st.chat_message(message["role"], avatar=st.session_state.photo_url):
+#             st.write(message["content"])
+#     elif message["role"] == "assistant":
+#         with st.chat_message(message["role"]):
+#             st.write(message["content"])
+
+
+# # create buttons for sample questions and to shuffle the user identity
+# col1, col2 = st.columns(2)
+
+# sample_questions = ["What's the Q3 revenue in my region?", "What's the Q2 quota in EMEA?", "What's the total profit in North America?",
+#                     "What's the average commission in EMEA?", "What's the Q3 revenue in North America?", "What's my commission in Q2?", "What's the total revenue in all regions?"]
+
+# with col1:
+#     sample_q = st.button('Ask a sample question ❔')
+# if sample_q:
+#     # randomly select a sample question
+#     prompt = random.choice(sample_questions)
+#     st.session_state.messages.append({"role": "user", "content": prompt})
+
+#     # display the message
+#     with st.chat_message("user", avatar=st.session_state.photo_url):
+#         st.write(prompt)
+
+
+# with col2:
+#     shuffle = st.button('Shuffle the user identity 🔄')
+#     if shuffle:
+#         # clear session state
+#         st.session_state.user_identity = None
+#         name = get_user_identity(df=employees_df)
+
+#         # update chat history
+#         st.session_state.messages = [
+#             {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
+#         ]
+
+# # If last message is not from assistant, generate a new response
+# if st.session_state.messages[-1]["role"] != "assistant":
+#     with st.chat_message("assistant"):
+#         with st.spinner("Thinking..."):
+#             response = chat_engine.chat(prompt)
+#             st.write(response.response)
+#             message = {"role": "assistant", "content": response.response}
+#             st.session_state.messages.append(message)  # Add response to message history
 
 
 st.markdown(footer_html, unsafe_allow_html=True)
