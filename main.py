@@ -120,7 +120,7 @@ with st.expander('What this app is about?'):
 
     High level architecture:
     """
-    st.image('https://i.postimg.cc/W3rx4V1X/architecture-llama.png', use_column_width=True)
+    st.image('https://i.postimg.cc/9Qystc2J/saleswizz-architecture.png', use_column_width=True)
 
     st.write('The chatbot is following the logic below:')
 
