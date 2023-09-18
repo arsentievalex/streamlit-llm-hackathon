@@ -5,3 +5,4 @@ tiktoken
 langchain==0.0.283
 llama-index==0.8.29
 snowflake-connector-python==2.9.0
+snowflake-sqlalchemy
