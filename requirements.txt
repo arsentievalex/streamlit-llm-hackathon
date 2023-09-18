@@ -1,6 +1,6 @@
 pandas==1.5.2
 streamlit
-openai
+openai==0.27.5
 tiktoken
-langchain
-llama-index
+langchain==0.0.283
+llama-index==0.8.21
