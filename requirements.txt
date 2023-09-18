@@ -4,3 +4,4 @@ openai==0.27.5
 tiktoken
 langchain==0.0.283
 llama-index==0.8.21
+nltk
