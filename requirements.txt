@@ -1,6 +1,6 @@
 pandas==1.5.2
 streamlit
-openai==0.27.5
+openai
 langchain
 snowflake-sqlalchemy==1.4.7
 tiktoken
