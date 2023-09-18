@@ -1,8 +1,8 @@
 pandas==1.5.2
+sqlalchemy>=1.4.0,<2.0.0
 streamlit
 openai
 tiktoken
-langchain==0.0.283
-llama-index==0.8.29
-snowflake-connector-python==3.2.0
-snowflake-sqlalchemy==1.5.0
+langchain
+llama-index
+snowflake-sqlalchemy
