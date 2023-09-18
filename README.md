@@ -17,6 +17,7 @@ High level architecture:
 
 
 The chatbot is following the logic below:
-https://i.postimg.cc/K86N8M3h/model-logic.png
+![Example Image 2](https://i.postimg.cc/K86N8M3h/model-logic.png)
+
 
 Example screenshots:
