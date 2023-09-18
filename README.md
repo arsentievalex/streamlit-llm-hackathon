@@ -21,3 +21,6 @@ The chatbot is following the logic below:
 
 
 Example screenshots:
+![Example Image 3](https://i.postimg.cc/7ZC0pLhn/sw-example1.png)
+
+![Example Image 3](https://i.postimg.cc/BbBfZsvh/sw-example3.png)
