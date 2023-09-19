@@ -2,7 +2,7 @@ import streamlit as st
 from llama_index import VectorStoreIndex, ServiceContext
 from llama_index.llms import OpenAI
 import openai
-from llama_index import SimpleDirectoryReader
+from llama_index.readers.database import DatabaseReader
 import random
 import pandas as pd
 
@@ -55,15 +55,30 @@ page_bg_img = f"""
 
 
 @st.cache_resource(show_spinner=False)
-def load_index():
+def load_index(_docs):
+    with st.spinner(text="Loading and indexing the docs – hang tight!"):
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0))
+        index = VectorStoreIndex.from_documents(_docs, service_context=service_context)
+        return index
+
+
+@st.cache_data(show_spinner=False)
+def load_docs(query):
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
 
-        reader = SimpleDirectoryReader(input_dir="./data")
-        docs = reader.load_data()
+        snowflake_user = st.secrets["snowflake"]['user']
+        snowflake_password = st.secrets["snowflake"]['password']
+        snowflake_account = st.secrets["snowflake"]['account']
+        snowflake_database = st.secrets["snowflake"]['database']
+        snowflake_schema = st.secrets["snowflake"]['schema']
 
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0))
-        index = VectorStoreIndex.from_documents(docs, service_context=service_context)
-        return index
+        snowflake_url = f"snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}"
+
+        reader = DatabaseReader(uri=snowflake_url)
+
+        docs = reader.load_data(query=query)
+
+        return docs
 
 
 def get_user_identity(df):
@@ -86,20 +101,55 @@ def get_user_identity(df):
     st.session_state.photo_url = photo_url
     return name.split(' ')[0]
 
+@st.cache_data(show_spinner=False)
+def docs_to_df(_docs, columns):
+    lst = []
+    for el in _docs:
+        lst.append(el.get_text())
+
+    # Initialize an empty list to store the rows
+    rows = []
+
+    # Loop through the list to split each string by commas and add to rows
+    for item in lst:
+        row = item.split(", ")
+        rows.append(row)
+
+    # Create the DataFrame
+    df = pd.DataFrame(rows, columns=columns)
+    return df
+
 
 st.set_page_config(page_title="SalesWizz", page_icon="💸", layout="centered",
                    initial_sidebar_state="auto", menu_items=None)
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+# load employees table as df
+query = f"""
+SELECT *
+FROM EMPLOYEES
+"""
+
+columns = ['Employee ID', 'Employee Name', 'Role', 'Employment Type', 'Region', 'Photo']
+
 # Load employees table
-employees_df = pd.read_csv('employees.csv')
+employees_docs = load_docs(query=query)
+employees_df = docs_to_df(_docs=employees_docs, columns=columns)
+
+# load employees table as df
+query = f"""
+SELECT *
+FROM SALESDATA
+"""
 
 # Set OpenAI API key
 openai.api_key = st.secrets["openai_credentials"]["openai_key"]
 
 # load sales table and index
-index = load_index()
+sales_docs = load_docs(query=query)
+index = load_index(_docs=sales_docs)
+
 
 st.title("SalesWizz: One Query Away from Your Sales 💸")
 
@@ -120,7 +170,7 @@ with st.expander('What this app is about?'):
 
     High level architecture:
     """
-    st.image('https://i.postimg.cc/9Qystc2J/saleswizz-architecture.png', use_column_width=True)
+    st.image('https://i.postimg.cc/W3rx4V1X/architecture-llama.png', use_column_width=True)
 
     st.write('The chatbot is following the logic below:')
 
@@ -190,6 +240,7 @@ col1, col2 = st.columns(2)
 sample_questions = ["What's the Q3 revenue in my region?", "What's the Q2 quota in EMEA?", "What's the total profit in North America?",
                     "What's the average commission in EMEA?", "What's the Q3 revenue in North America?", "What's Q2 commission in LATAM?", "What is my Q1 quota?", "Is EMEA Q3 revenue higher than Q2?",
                     "What's the total revenue in all regions?", "What's the average quota globally?"]
+
 
 with col1:
     sample_q = st.button('Ask a sample question ❔')
