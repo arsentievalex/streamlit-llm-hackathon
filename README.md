@@ -1,5 +1,7 @@
 # SalesWizz - Streamlit LLM Hackathon App
 
+[![Open App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://saleswizz.streamlit.app/)
+
 This app is a basic implementation of a user-identity-aware chatbot. It is trained on internal sales data and follows the company's policy for handling IAM (Identity and Access Management).
 
 The model is trained on the fictional sales data including region, quarter, quota, profit, commission and revenue.
