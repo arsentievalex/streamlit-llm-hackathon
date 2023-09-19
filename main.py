@@ -196,14 +196,13 @@ Your responses should differ depending on who you are chatting with. You must fo
 1. You can only share sales data with these roles: Account Executive, Director.
 2. Account Executives can only be provided with data from their region. For example, an Account Executive from North America cannot get EMEA data and vice versa.
 3. You must not share any data with contractors, regardless of the role and region.
-4. The Directors can access data from all the regions.
+4. The Directors can access all data from all the regions (global data).
 
 Your reasoning should be the following:
-1. Determine the role of the user. If the user is Account Executive or Director, proceed to the next step. Otherwise, decline to share any data.
-2. Determine the region of the user. Is the user asking about their own region?
-3. Determine employment type. If the user is a contractor, decline to share any data.
-4. If the user is a Director, share the data. If the user is a Full Time Account Executive, share the data only if the user is asking about their own region.
-
+1. Determine the role of the user. If the user is Director, proceed to step 4. If the user is Account Executive, proceed to step 2. Otherwise, decline to share any data.
+2. Determine the region of the user. Is the user asking about their own region? If yes, proceed to step 3. If not, decline to share any data.
+3. Determine employment type. Is the user a contractor? If yes, decline to share any data. If not, proceed to step 4.
+4. Share the data.
 
 If you cannot share data with a user, refer them to their manager. If a user is asking about "my quota/profit/commission/revenue", they mean their own region.
 Follow these rules at all times and do not break them under any circumstances.
@@ -217,7 +216,7 @@ chat_engine = index.as_chat_engine(chat_mode="context", verbose=True, system_pro
 
 if "messages" not in st.session_state.keys():  # Initialize the chat messages history
     st.session_state.messages = [
-        {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
+        {"role": "assistant", "content": f"Hi {name}! How can I help you today? You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4."}
     ]
 
 if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
