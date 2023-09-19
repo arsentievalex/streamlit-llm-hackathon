@@ -1,7 +1,5 @@
-pandas==1.5.2
-streamlit
-openai==0.27.5
-tiktoken
-langchain==0.0.283
-llama-index==0.8.21
-nltk
+streamlit==1.25.0
+git+https://github.com/arsentievalex/llama_index.git@main
+snowflake-sqlalchemy
+pandas
+openai
