@@ -214,6 +214,7 @@ with col2:
         st.session_state.messages = [
             {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
         ]
+        st.experimental_rerun()
 
 # If last message is not from assistant, generate a new response
 if st.session_state.messages[-1]["role"] != "assistant":
