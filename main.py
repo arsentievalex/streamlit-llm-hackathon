@@ -261,7 +261,7 @@ with col2:
 
         # update chat history
         st.session_state.messages = [
-            {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
+            {"role": "assistant", "content": f"Hi {name}! How can I help you today? How can I help you today? You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4."}
         ]
         st.experimental_rerun()
 
