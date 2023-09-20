@@ -15,7 +15,7 @@ The Directors can access data from all the regions (global).
 The model is instructed about the current user's identity and decides whether to share the data or not based on the policy. As a nice bonus, the app displays the current user's photo from the employee table in the chat window.
 
 High level architecture:
-![Example Image 1](https://i.postimg.cc/prx9yg5c/saleswizz-architecture-2.png)
+![Example Image 1](https://i.postimg.cc/T1wcpLD4/saleswizz-diagram.png)
 
 
 The chatbot is following the logic below:
