@@ -2,3 +2,5 @@
 headless = true
 [browser]
 gatherUsageStats = false
+[theme]
+primaryColor="C8938F"
