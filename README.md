@@ -22,7 +22,5 @@ The chatbot is following the logic below:
 ![Example Image 2](https://i.postimg.cc/K86N8M3h/model-logic.png)
 
 
-Example screenshots:
-![Example Image 3](https://i.postimg.cc/7ZC0pLhn/sw-example1.png)
-
-![Example Image 3](https://i.postimg.cc/BbBfZsvh/sw-example3.png)
+Example conversations:
+![Example Image 3]([https://i.postimg.cc/7ZC0pLhn/sw-example1.png](https://i.postimg.cc/Hn4ffLGs/saleswizz-sample.png))
