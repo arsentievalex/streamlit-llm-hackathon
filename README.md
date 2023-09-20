@@ -23,4 +23,5 @@ The chatbot is following the logic below:
 
 
 Example conversations:
+
 ![Example Image 3](https://i.postimg.cc/DySHTh9g/saleswizz-sample.png)
