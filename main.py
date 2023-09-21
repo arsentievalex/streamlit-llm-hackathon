@@ -66,18 +66,16 @@ def load_index(_docs):
 def load_docs(query):
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
 
-        snowflake_user = st.secrets["snowflake"]['user']
-        snowflake_password = st.secrets["snowflake"]['password']
-        snowflake_account = st.secrets["snowflake"]['account']
-        snowflake_database = st.secrets["snowflake"]['database']
-        snowflake_schema = st.secrets["snowflake"]['schema']
+        snowflake_user = st.secrets["connections"]["snowflake"]['user']
+        snowflake_password = st.secrets["connections"]["snowflake"]['password']
+        snowflake_account = st.secrets["connections"]["snowflake"]['account']
+        snowflake_database = st.secrets["connections"]["snowflake"]['database']
+        snowflake_schema = st.secrets["connections"]["snowflake"]['schema']
 
         snowflake_url = f"snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}"
 
         reader = DatabaseReader(uri=snowflake_url)
-
         docs = reader.load_data(query=query)
-
         return docs
 
 
@@ -86,12 +84,12 @@ def get_user_identity(df):
     random_index = random.choice(df.index)
     random_row = df.loc[random_index]
 
-    name = random_row['Employee Name']
-    photo_url = random_row['Photo']
+    name = random_row['employee_name']
+    photo_url = random_row['photo']
 
     # Drop the 'Employee_ID' column
-    df.drop('Employee ID', axis=1, inplace=True)
-    df.drop('Photo', axis=1, inplace=True)
+    df.drop('employee_id', axis=1, inplace=True)
+    df.drop('photo', axis=1, inplace=True)
 
     # Concatenate column names and their values
     concatenated_str = ', '.join([str(random_row[col]) for col in df.columns])
@@ -101,22 +99,14 @@ def get_user_identity(df):
     st.session_state.photo_url = photo_url
     return name.split(' ')[0]
 
+
 @st.cache_data(show_spinner=False)
-def docs_to_df(_docs, columns):
-    lst = []
-    for el in _docs:
-        lst.append(el.get_text())
+def load_data(query):
+    # Initialize connection.
+    conn = st.experimental_connection('snowflake', type='sql')
 
-    # Initialize an empty list to store the rows
-    rows = []
-
-    # Loop through the list to split each string by commas and add to rows
-    for item in lst:
-        row = item.split(", ")
-        rows.append(row)
-
-    # Create the DataFrame
-    df = pd.DataFrame(rows, columns=columns)
+    # Perform query.
+    df = conn.query(query)
     return df
 
 
@@ -126,19 +116,16 @@ st.set_page_config(page_title="SalesWizz", page_icon="💸", layout="centered",
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # load employees table as df
-query = f"""
+query_emp = f"""
 SELECT *
 FROM EMPLOYEES
 """
 
-columns = ['Employee ID', 'Employee Name', 'Role', 'Employment Type', 'Region', 'Photo']
-
 # Load employees table
-employees_docs = load_docs(query=query)
-employees_df = docs_to_df(_docs=employees_docs, columns=columns)
+employees_df = load_data(query=query_emp)
 
 # load employees table as df
-query = f"""
+query_sales = f"""
 SELECT *
 FROM SALESDATA
 """
@@ -147,7 +134,7 @@ FROM SALESDATA
 openai.api_key = st.secrets["openai_credentials"]["openai_key"]
 
 # load sales table and index
-sales_docs = load_docs(query=query)
+sales_docs = load_docs(query=query_sales)
 index = load_index(_docs=sales_docs)
 
 
