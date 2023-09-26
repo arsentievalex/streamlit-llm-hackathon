@@ -171,10 +171,13 @@ if 'user_identity' not in st.session_state:
 if st.session_state.user_identity is None:
     name = get_user_identity(df=employees_df)
 
+info = f"""
+You are randomly assigned a user identity. Your current identify is: **{st.session_state.user_identity}**. Click the button below to shuffle the identity.
+\n
+You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4.
+"""
 
-st.info(
-    f"You are randomly assigned a user identity. Your current identify is: {st.session_state.user_identity}. Click the button below to shuffle the identity. You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4.",
-    icon="📃")
+st.info(info, icon="📃")
 
 policy = f"""
 You're helpful internal chatbot assistant, your task is answering questions about company sales data. You don't have knowledge of any other topics.
