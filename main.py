@@ -231,9 +231,9 @@ for message in st.session_state.messages:  # Display the prior chat messages
 # create buttons for sample questions and to shuffle the user identity
 col1, col2 = st.columns(2)
 
-sample_questions = ["What's the Q3 revenue in my region?", "What's the Q2 quota in EMEA?", "What's the total profit in North America?",
-                    "What's the average commission in EMEA?", "What's the Q3 revenue in North America?", "What's Q2 commission in LATAM?", "What is my Q1 quota?", "Is EMEA Q3 revenue higher than Q2?",
-                    "What's the total global revenue?", "What's the average quota in my region?", "What's the Q1 profit in my region?", "What's the Q2 commission in my region?"]
+sample_questions = ["What's the Q3 revenue in my region?", "What's the Q2 quota in EMEA?", "What's the Q4 quota in Asia?", "What's the Q1 revenue in LATAM?",
+                    "What's the Q3 revenue in North America?", "What's Q2 commission in LATAM?", "What is my Q1 quota?", "Is EMEA Q3 revenue higher than Q2?",
+                    "What's the Q1 profit in my region?", "What's the Q2 commission in my region?"]
 
 with col1:
     sample_q = st.button('Ask a sample question ❔')
