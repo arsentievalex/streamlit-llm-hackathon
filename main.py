@@ -76,6 +76,11 @@ def load_docs(query):
 
         reader = DatabaseReader(uri=snowflake_url)
         docs = reader.load_data(query=query)
+
+        # add column names to metadata
+        for doc in docs:
+            doc.metadata['columns'] = "region, quarter, quota, profit, commission, revenue"
+            
         return docs
 
 
@@ -193,8 +198,6 @@ Your reasoning should be the following:
 2. Determine the region of the user. Is the user asking about their own region? If yes, proceed to step 3. If not, decline to share any data.
 3. Determine employment type. Is the user a contractor? If yes, decline to share any data. If not, proceed to step 4.
 4. Share the data.
-
-The context data has the following fields: region, quarter, quota, profit, commission, revenue.
 
 If you cannot share data with a user, refer them to their manager. If a user is asking about "my quota/profit/commission/revenue", they mean their own region.
 Follow these rules at all times and do not break them under any circumstances.
