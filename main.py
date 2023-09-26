@@ -173,7 +173,7 @@ if st.session_state.user_identity is None:
 
 
 st.info(
-    f"You are randomly assigned a user identity. Your current identify is: {st.session_state.user_identity}. Click the button below to shuffle the identity.",
+    f"You are randomly assigned a user identity. Your current identify is: {st.session_state.user_identity}. Click the button below to shuffle the identity. You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4.",
     icon="📃")
 
 policy = f"""
@@ -203,7 +203,7 @@ chat_engine = index.as_chat_engine(chat_mode="context", verbose=True, system_pro
 
 if "messages" not in st.session_state.keys():  # Initialize the chat messages history
     st.session_state.messages = [
-        {"role": "assistant", "content": f"Hi {name}! How can I help you today? You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4."}
+        {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
     ]
 
 if prompt := st.chat_input("Your question"):  # Prompt for user input and save to chat history
@@ -248,7 +248,7 @@ with col2:
 
         # update chat history
         st.session_state.messages = [
-            {"role": "assistant", "content": f"Hi {name}! How can I help you today? How can I help you today? You can ask about quota, profit, commission or revenue. The data is available for the following regions: North America, EMEA, Asia, LATAM. And for the following quarters: Q1, Q2, Q3, Q4."}
+            {"role": "assistant", "content": f"Hi {name}! How can I help you today? How can I help you today?"}
         ]
         st.experimental_rerun()
 
