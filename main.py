@@ -251,7 +251,7 @@ with col2:
 
         # update chat history
         st.session_state.messages = [
-            {"role": "assistant", "content": f"Hi {name}! How can I help you today? How can I help you today?"}
+            {"role": "assistant", "content": f"Hi {name}! How can I help you today?"}
         ]
         st.experimental_rerun()
 
