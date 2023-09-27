@@ -148,7 +148,8 @@ st.title("SalesWizz: One Query Away from Your Sales 💸")
 with st.expander('What this app is about?'):
     """
     This app is a basic implementation of a user-identity-aware chatbot.
-    It is trained on internal sales data and follows the company's policy for handling IAM (Identity and Access Management). The user identity is assigned randomly for the purpose of this app, but in a production use case it can be achieved by getting an email address of the current user through the websocket header, and then looking up an employee directory with the email address to get more details about a user, such as region, role, employment type and a photo url.
+    It is trained on internal sales data and follows the company's policy for handling IAM (Identity and Access Management). 
+    The user identity is assigned randomly for the purpose of this app, but in a production use case it can be achieved by getting an email address of the current user through the websocket header, and then looking up an employee directory with the email address to get more details about a user, such as region, role, employment type and a photo url.
 
     The model is trained on the fictional sales data including region, quarter, quota, profit, commission and revenue.
 
