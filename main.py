@@ -75,12 +75,12 @@ def get_user_identity(df):
     random_index = random.choice(df.index)
     random_row = df.loc[random_index]
 
-    name = random_row['employee_name']
-    photo_url = random_row['photo']
+    name = random_row['Employee Name']
+    photo_url = random_row['Photo']
 
     # Drop the 'Employee_ID' column
-    df.drop('employee_id', axis=1, inplace=True)
-    df.drop('photo', axis=1, inplace=True)
+    df.drop('Employee ID', axis=1, inplace=True)
+    df.drop('Photo', axis=1, inplace=True)
 
     # Concatenate column names and their values
     concatenated_str = ', '.join([str(random_row[col]) for col in df.columns])
