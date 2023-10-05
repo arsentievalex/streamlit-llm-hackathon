@@ -1,8 +1,8 @@
 import streamlit as st
-from llama_index import VectorStoreIndex, ServiceContext
+from llama_index import VectorStoreIndex, ServiceContext, Document
+from llama_index import SimpleDirectoryReader
 from llama_index.llms import OpenAI
 import openai
-from llama_index.readers.database import DatabaseReader
 import random
 import pandas as pd
 
@@ -63,24 +63,10 @@ def load_index(_docs):
 
 
 @st.cache_data(show_spinner=False)
-def load_docs(query):
+def load_docs():
     with st.spinner(text="Loading and indexing the docs – hang tight!"):
-
-        snowflake_user = st.secrets["connections"]["snowflake"]['user']
-        snowflake_password = st.secrets["connections"]["snowflake"]['password']
-        snowflake_account = st.secrets["connections"]["snowflake"]['account']
-        snowflake_database = st.secrets["connections"]["snowflake"]['database']
-        snowflake_schema = st.secrets["connections"]["snowflake"]['schema']
-
-        snowflake_url = f"snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}"
-
-        reader = DatabaseReader(uri=snowflake_url)
-        docs = reader.load_data(query=query)
-
-        # add column names to metadata
-        for doc in docs:
-            doc.metadata['columns'] = "region, quarter, quota, profit, commission, revenue"
-            
+        reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
+        docs = reader.load_data()            
         return docs
 
 
@@ -106,12 +92,8 @@ def get_user_identity(df):
 
 
 @st.cache_data(show_spinner=False)
-def load_data(query):
-    # Initialize connection.
-    conn = st.experimental_connection('snowflake', type='sql')
-
-    # Perform query.
-    df = conn.query(query)
+def load_data():
+    df = pd.read_csv('employees.csv')
     return df
 
 
@@ -120,26 +102,14 @@ st.set_page_config(page_title="SalesWizz", page_icon="💸", layout="centered",
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# load employees table as df
-query_emp = f"""
-SELECT *
-FROM EMPLOYEES
-"""
-
 # Load employees table
-employees_df = load_data(query=query_emp)
-
-# load employees table as df
-query_sales = f"""
-SELECT *
-FROM SALESDATA
-"""
+employees_df = load_data()
 
 # Set OpenAI API key
 openai.api_key = st.secrets["openai_credentials"]["openai_key"]
 
 # load sales table and index
-sales_docs = load_docs(query=query_sales)
+sales_docs = load_docs()
 index = load_index(_docs=sales_docs)
 
 
